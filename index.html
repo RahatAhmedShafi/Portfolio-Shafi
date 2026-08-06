@@ -1,282 +1,767 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rahat Ahmed Shafi | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <style>
-    :root { --primary: #6366f1; }
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg: #09090b;
+      --card: #18181b;
+      --card-hover: #202024;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --border: #27272a;
+      --accent: #10b981;
+      --typing-text: #a5b4fc;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --card-hover: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-hover: #3730a3;
+      --typing-text: #4f46e5;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      transition: background-color 0.4s ease;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
-    .hero-bg {
-      background: linear-gradient(135deg, #1e2937 0%, #334155 100%);
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Outfit', sans-serif;
     }
+
+    /* Premium Glow Backgrounds */
+    .glow-bg {
+      position: absolute;
+      top: -10%;
+      left: 10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-bg-2 {
+      position: absolute;
+      bottom: 10%;
+      right: 5%;
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background-color: rgba(24, 24, 27, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-theme="light"] .glass-card {
+      background-color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
     .project-card {
-      transition: all 0.4s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .project-card:hover {
-      transform: translateY(-12px);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
+      border-color: rgba(99, 102, 241, 0.3);
     }
-    .skill-bar {
-      height: 8px;
-      background: linear-gradient(to right, var(--primary), #a5b4fc);
-      border-radius: 9999px;
+
+    .skill-badge {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
     }
+    .skill-badge:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
     .typing {
-      overflow: hidden;
-      border-right: 3px solid #6366f1;
-      white-space: nowrap;
+      border-right: 3px solid var(--primary);
+      animation: blink 0.75s step-end infinite;
     }
-    #mobile-menu {
-      transition: all 0.4s ease;
+
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: var(--primary); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-200">
+<body data-theme="dark" class="relative overflow-x-hidden pt-20">
+
+  <!-- Glow effects -->
+  <div class="glow-bg"></div>
+  <div class="glow-bg-2"></div>
 
   <!-- Navbar -->
-  <nav class="fixed top-0 w-full bg-zinc-950/90 backdrop-blur-lg z-50 border-b border-zinc-800">
-    <div class="max-w-6xl mx-auto px-5 py-5 flex justify-between items-center">
-      <h1 class="text-2xl font-bold tracking-tight">Rahat Ahmed Shafi</h1>
+  <nav class="fixed top-0 w-full backdrop-blur-md z-50 border-b border-[var(--border)] transition-all bg-[var(--bg)]/80">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold tracking-tight text-[var(--text)] flex items-center gap-2">
+        <span class="bg-indigo-600 text-white w-9 h-9 rounded-xl flex items-center justify-center text-base shadow-lg shadow-indigo-600/30">R</span>
+        <span>Rahat Ahmed Shafi</span>
+      </a>
       
-      <div class="hidden md:flex gap-8 text-sm font-medium">
-        <a href="#about" class="nav-link hover:text-indigo-400 transition">About</a>
-        <a href="#projects" class="nav-link hover:text-indigo-400 transition">Projects</a>
-        <a href="#blog" class="nav-link hover:text-indigo-400 transition">Blog</a>
-        <a href="#skills" class="nav-link hover:text-indigo-400 transition">Skills</a>
-        <a href="#contact" class="nav-link hover:text-indigo-400 transition">Contact</a>
+      <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+        <a href="#about" class="hover:text-indigo-400 transition duration-300">About</a>
+        <a href="#projects" class="hover:text-indigo-400 transition duration-300">Projects</a>
+        <a href="#skills" class="hover:text-indigo-400 transition duration-300">Skills</a>
+        <a href="#blog" class="hover:text-indigo-400 transition duration-300">Blog</a>
+        <a href="#contact" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl transition duration-300 shadow-md shadow-indigo-600/10 font-semibold text-xs uppercase tracking-wider">Contact Me</a>
       </div>
 
-      <div class="flex items-center gap-4">
-        <button id="theme-toggle" class="p-3 rounded-2xl hover:bg-zinc-800 transition text-xl">
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" class="p-2.5 rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card-hover)] transition text-lg flex items-center justify-center" aria-label="Toggle Theme">
           <i class="fas fa-moon"></i>
         </button>
-        <button id="mobile-menu-btn" class="md:hidden text-2xl p-2">
+        <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-xl border border-[var(--border)] text-xl flex items-center justify-center" aria-label="Toggle Mobile Menu">
           <i class="fas fa-bars"></i>
         </button>
       </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-zinc-900 border-t border-zinc-800 py-6">
-      <div class="flex flex-col gap-6 text-center text-lg">
-        <a href="#about" class="nav-link py-2">About</a>
-        <a href="#projects" class="nav-link py-2">Projects</a>
-        <a href="#blog" class="nav-link py-2">Blog</a>
-        <a href="#skills" class="nav-link py-2">Skills</a>
-        <a href="#contact" class="nav-link py-2">Contact</a>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border)] bg-[var(--bg)] py-6 px-6">
+      <div class="flex flex-col gap-4 text-center">
+        <a href="#about" class="py-2.5 hover:text-indigo-400 transition">About</a>
+        <a href="#projects" class="py-2.5 hover:text-indigo-400 transition">Projects</a>
+        <a href="#skills" class="py-2.5 hover:text-indigo-400 transition">Skills</a>
+        <a href="#blog" class="py-2.5 hover:text-indigo-400 transition">Blog</a>
+        <a href="#contact" class="py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition">Contact Me</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero-bg min-h-screen flex items-center pt-20">
-    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-      <div>
-        <h2 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
-          Hi, I'm <span class="text-indigo-400">Rahat Ahmed Shafi</span>
+  <!-- Hero Section -->
+  <section class="min-h-[85vh] flex items-center relative z-10 py-12">
+    <div class="max-w-6xl mx-auto px-6 w-full grid md:grid-cols-12 gap-12 items-center">
+      <!-- Info Column -->
+      <div class="md:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Open for Works
+        </div>
+        <h2 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+          Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-indigo-500 to-emerald-400">Rahat Ahmed Shafi</span>
         </h2>
-        <p id="typing-text" class="typing text-3xl md:text-5xl text-indigo-300 font-medium h-20 mb-6"></p>
-        
-        <p class="text-zinc-300 text-lg mb-10 max-w-lg">
-          I build exceptional digital experiences with clean code and beautiful interfaces.
+        <div class="h-16 flex items-center">
+          <p id="typing-text" class="typing text-2xl md:text-4xl text-[var(--typing-text)] font-semibold"></p>
+        </div>
+        <p class="text-zinc-400 text-base md:text-lg leading-relaxed max-w-xl">
+          I build secure, responsive, and impactful digital products. Specialized in React development, Express microservices, and client-side security hardening.
         </p>
-        
-        <div class="flex gap-4">
-          <a href="#projects" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 transition rounded-xl font-semibold flex items-center gap-2">
-            View Projects <i class="fas fa-arrow-right"></i>
+
+        <!-- Social Icons & Contact Links -->
+        <div class="flex flex-wrap gap-4 items-center pt-2">
+          <a href="#projects" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white transition rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-indigo-600/20">
+            View Projects <i class="fas fa-arrow-right text-xs"></i>
           </a>
-          <a href="#contact" class="px-8 py-4 border border-zinc-400 hover:bg-zinc-900 transition rounded-xl font-semibold">
+          <a href="#contact" class="px-6 py-3.5 border border-[var(--border)] hover:bg-[var(--card-hover)] transition rounded-xl font-semibold">
             Get In Touch
           </a>
+          <div class="flex gap-4 ml-2 text-xl text-zinc-400">
+            <a href="https://github.com/RahatAhmedShafi" target="_blank" class="hover:text-indigo-400 transition" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/rahat-ahmed-shafi/" target="_blank" class="hover:text-indigo-400 transition" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://dribbble.com/rahatahmed" target="_blank" class="hover:text-indigo-400 transition" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+            <a href="mailto:rahatahmedshafi@gmail.com" class="hover:text-indigo-400 transition" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          </div>
         </div>
       </div>
-      
-      <div class="flex justify-center">
-        <div class="w-80 h-80 rounded-3xl overflow-hidden border-4 border-zinc-700 shadow-2xl">
-          <img src="shafi1.jpeg" alt="Profile" class="w-full h-full object-cover">
+
+      <!-- Image Column -->
+      <div class="md:col-span-5 flex justify-center relative">
+        <div class="relative w-72 h-72 md:w-80 md:h-80">
+          <!-- Back decoration -->
+          <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-emerald-500 rounded-3xl rotate-6 opacity-30 blur-sm"></div>
+          <!-- Profile image container -->
+          <div class="relative w-full h-full rounded-3xl overflow-hidden border-2 border-indigo-500/20 shadow-2xl z-10 bg-zinc-950">
+            <img src="shafi1.jpeg" alt="Rahat Ahmed Shafi" class="w-full h-full object-cover">
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
-  <section id="about" class="py-24 bg-zinc-900">
+  <!-- About Me -->
+  <section id="about" class="py-24 border-t border-[var(--border)] bg-zinc-950/40 relative z-10">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-16">About Me</h2>
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="space-y-6 text-lg">
-          <p>I'm a passionate developer with 3+ years of experience creating modern web applications. I love turning ideas into reality with clean, efficient code.</p>
-          <p>When I'm not coding, you'll find me exploring new technologies, contributing to open source, or capturing moments through photography.</p>
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">About Me</h2>
+        <div class="w-12 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+      </div>
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-7 space-y-6 text-base md:text-lg text-[var(--text-muted)] leading-relaxed">
+          <p>
+            I am a full-stack developer and CSE major with a keen interest in building high-quality, secure web applications. I specialize in designing and engineering applications that balance modern, intuitive UX with strict, production-grade web security guidelines.
+          </p>
+          <p>
+            Recently, I've developed platforms addressing local Bangladeshi problems. This includes **Vibora**, a localized campus-and-district community hub with zero external telemetry, and **DeshBari**, a remittance and family expense dashboard focusing on simplicity and currency statistics.
+          </p>
+          <p>
+            My objective is to build clean, well-tested code bases that solve real-world problems. When I'm not programming, I research client-side exploit mitigation layers, API security controls, and design trends.
+          </p>
         </div>
-        <div class="bg-zinc-800 p-8 rounded-3xl">
-          <h3 class="text-xl font-semibold mb-6">Currently</h3>
-          <ul class="space-y-4">
-            <li class="flex gap-3"><span class="text-indigo-400">•</span> Building scalable web apps</li>
-            <li class="flex gap-3"><span class="text-indigo-400">•</span> Learning AI &amp; Machine Learning</li>
-            <li class="flex gap-3"><span class="text-indigo-400">•</span> Open for freelance opportunities</li>
+        <div class="md:col-span-5 glass-card p-8 rounded-3xl">
+          <h3 class="text-xl font-bold mb-6 text-[var(--text)]">Focus Areas</h3>
+          <ul class="space-y-4 text-[var(--text-muted)]">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-indigo-500 mt-1"></i>
+              <div>
+                <strong class="text-[var(--text)] block">Full Stack Development</strong>
+                React/Next.js and Node.js microservices
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-indigo-500 mt-1"></i>
+              <div>
+                <strong class="text-[var(--text)] block">Application Hardening</strong>
+                CSP setup, sanitizers, query injection mitigations
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check-circle text-indigo-500 mt-1"></i>
+              <div>
+                <strong class="text-[var(--text)] block">Fintech Utilities</strong>
+                Remittance charts, budget triggers, MFS transaction trackers
+              </div>
+            </li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills -->
-  <section id="skills" class="py-24">
+  <!-- Skills & Tools -->
+  <section id="skills" class="py-24 relative z-10">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-16">Skills &amp; Tools</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="bg-zinc-900 p-8 rounded-3xl">
-          <h3 class="font-semibold mb-6 text-xl">Frontend</h3>
-          <div class="space-y-6">
-            <div><div class="flex justify-between text-sm mb-2"><span>React / Next.js</span><span>90%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[90%]"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-2"><span>Tailwind CSS</span><span>95%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[95%]"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-2"><span>JavaScript / TypeScript</span><span>85%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[85%]"></div></div></div>
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Skills &amp; Toolkit</h2>
+        <div class="w-12 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Frontend -->
+        <div class="glass-card p-8 rounded-3xl space-y-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg"><i class="fas fa-laptop-code"></i></div>
+            <h3 class="font-bold text-xl text-[var(--text)]">Frontend</h3>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between text-sm"><span>React / Next.js</span><span class="text-indigo-500 dark:text-indigo-400 font-semibold">90%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full" style="width: 90%"></div></div>
+            
+            <div class="flex justify-between text-sm pt-2"><span>Tailwind CSS</span><span class="text-indigo-500 dark:text-indigo-400 font-semibold">95%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full" style="width: 95%"></div></div>
+
+            <div class="flex justify-between text-sm pt-2"><span>JavaScript (ES6+)</span><span class="text-indigo-500 dark:text-indigo-400 font-semibold">88%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full" style="width: 88%"></div></div>
           </div>
         </div>
-        <div class="bg-zinc-900 p-8 rounded-3xl">
-          <h3 class="font-semibold mb-6 text-xl">Backend</h3>
-          <div class="space-y-6">
-            <div><div class="flex justify-between text-sm mb-2"><span>Node.js</span><span>80%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[80%]"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-2"><span>Python / Django</span><span>75%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[75%]"></div></div></div>
-            <div><div class="flex justify-between text-sm mb-2"><span>PostgreSQL</span><span>70%</span></div><div class="h-2 bg-zinc-800 rounded-full"><div class="skill-bar w-[70%]"></div></div></div>
+
+        <!-- Backend -->
+        <div class="glass-card p-8 rounded-3xl space-y-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg"><i class="fas fa-server"></i></div>
+            <h3 class="font-bold text-xl text-[var(--text)]">Backend</h3>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between text-sm"><span>Node.js / Express</span><span class="text-emerald-500 dark:text-emerald-400 font-semibold">85%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style="width: 85%"></div></div>
+            
+            <div class="flex justify-between text-sm pt-2"><span>WebSockets</span><span class="text-emerald-500 dark:text-emerald-400 font-semibold">80%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style="width: 80%"></div></div>
+
+            <div class="flex justify-between text-sm pt-2"><span>REST APIs</span><span class="text-emerald-500 dark:text-emerald-400 font-semibold">90%</span></div>
+            <div class="h-1.5 bg-zinc-800/20 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style="width: 90%"></div></div>
           </div>
         </div>
-        <div class="bg-zinc-900 p-8 rounded-3xl">
-          <h3 class="font-semibold mb-6 text-xl">Design</h3>
-          <div class="flex flex-wrap gap-3">
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Figma</span>
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Framer</span>
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Adobe XD</span>
+
+        <!-- Cyber Security -->
+        <div class="glass-card p-8 rounded-3xl space-y-4">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg"><i class="fas fa-shield-alt"></i></div>
+            <h3 class="font-bold text-xl text-[var(--text)]">Security Controls</h3>
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-xl font-semibold">Input Sanitization</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-xl font-semibold">NoSQL Inj Mitigation</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-xl font-semibold">CSP Header Lock</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-xl font-semibold">JWT Socket Auth</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded-xl font-semibold">XSS Defenses</span>
           </div>
         </div>
-        <div class="bg-zinc-900 p-8 rounded-3xl">
-          <h3 class="font-semibold mb-6 text-xl">Other</h3>
-          <div class="flex flex-wrap gap-3">
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Git</span>
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Docker</span>
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">AWS</span>
-            <span class="bg-zinc-800 px-5 py-2 rounded-2xl text-sm">Vercel</span>
+
+        <!-- Languages & Tools -->
+        <div class="glass-card p-8 rounded-3xl space-y-4">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg"><i class="fas fa-tools"></i></div>
+            <h3 class="font-bold text-xl text-[var(--text)]">Languages & Tools</h3>
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">C</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">Java</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">MongoDB</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">PostgreSQL</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">Git / GitHub</span>
+          
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">Vercel</span>
+            <span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl font-semibold">Figma</span>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Projects -->
-  <section id="projects" class="py-24 bg-zinc-900">
+  <!-- Projects Showcase -->
+  <section id="projects" class="py-24 border-t border-[var(--border)] bg-[var(--bg)]/40 relative z-10">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
-        <h2 class="text-4xl font-bold">Featured Projects</h2>
-        <div class="flex gap-2 bg-zinc-800 p-2 rounded-3xl overflow-x-auto">
-          <button data-filter="all" class="filter-btn active px-6 py-3 rounded-3xl text-sm font-medium whitespace-nowrap">All</button>
-          <button data-filter="web" class="filter-btn px-6 py-3 rounded-3xl text-sm font-medium whitespace-nowrap">Web</button>
-          <button data-filter="mobile" class="filter-btn px-6 py-3 rounded-3xl text-sm font-medium whitespace-nowrap">Mobile</button>
-          <button data-filter="other" class="filter-btn px-6 py-3 rounded-3xl text-sm font-medium whitespace-nowrap">Other</button>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-2">Featured Projects</h2>
+          <p class="text-[var(--text-muted)] text-sm">Click on any project to explore detailed features and system architecture.</p>
+        </div>
+        <div class="flex gap-1.5 bg-[var(--card)] border border-[var(--border)] p-1.5 rounded-2xl">
+          <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition duration-300">All</button>
+          <button data-filter="web" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition duration-300 text-[var(--text-muted)]">Web</button>
+          <button data-filter="security" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition duration-300 text-[var(--text-muted)]">Security</button>
+          <button data-filter="games" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition duration-300 text-[var(--text-muted)]">Games</button>
+          <button data-filter="design" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition duration-300 text-[var(--text-muted)]">Design</button>
         </div>
       </div>
-
-      <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- JS will fill this -->
-      </div>
+      
+      <!-- Projects Grid -->
+      <div id="projects-grid" class="grid md:grid-cols-2 gap-8"></div>
     </div>
   </section>
 
   <!-- Blog -->
-  <section id="blog" class="py-24">
+  <section id="blog" class="py-24 relative z-10">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-16">Latest Blog Posts</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-zinc-800 rounded-3xl overflow-hidden group">
-          <img src="https://via.placeholder.com/800x500/334155/fff?text=Blog+1" class="w-full h-56 object-cover group-hover:scale-105 transition">
-          <div class="p-8">
-            <span class="text-xs text-indigo-400">June 28, 2026</span>
-            <h3 class="text-2xl font-semibold mt-3 mb-3">How I Built My Portfolio with Pure HTML, CSS &amp; JS</h3>
-            <p class="text-zinc-400">A detailed journey of creating a responsive, modern portfolio without any frameworks.</p>
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Latest Blog Posts</h2>
+        <div class="w-12 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Post 1 -->
+        <div class="glass-card rounded-3xl overflow-hidden group flex flex-col justify-between">
+          <div>
+            <div class="h-48 overflow-hidden relative">
+              <div class="absolute inset-0 bg-indigo-950/20 group-hover:bg-indigo-950/10 transition z-10"></div>
+              <img src="vibora_preview.png" alt="Securing Express APIs" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            </div>
+            <div class="p-8 space-y-3">
+              <span class="text-xs text-indigo-500 dark:text-indigo-400 font-bold uppercase tracking-wider">Cybersecurity</span>
+              <h3 class="text-2xl font-bold text-[var(--text)] group-hover:text-indigo-400 transition">Securing Node/Express APIs Against NoSQL Injection</h3>
+              <p class="text-[var(--text-muted)] text-sm leading-relaxed">
+                A technical walkthrough on hardening MongoDB endpoints. Exploring recursive sanitizers in Express middleware to filter out query injection keys (starting with $) and safeguard authentications.
+              </p>
+            </div>
+          </div>
+          <div class="px-8 pb-8 pt-0">
+            <span class="text-[var(--text-muted)] opacity-70 text-xs font-semibold"><i class="far fa-calendar-alt mr-2"></i>July 2026</span>
           </div>
         </div>
-        <!-- Add more blog cards here -->
+
+        <!-- Post 2 -->
+        <div class="glass-card rounded-3xl overflow-hidden group flex flex-col justify-between">
+          <div>
+            <div class="h-48 overflow-hidden relative">
+              <div class="absolute inset-0 bg-emerald-950/20 group-hover:bg-emerald-950/10 transition z-10"></div>
+              <img src="deshbari_preview.png" alt="DeshBari Dashboard Design" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            </div>
+            <div class="p-8 space-y-3">
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Product Design &amp; Finance</span>
+              <h3 class="text-2xl font-bold text-[var(--text)] group-hover:text-emerald-400 transition">UX Challenges in Family Remittance Dashboards</h3>
+              <p class="text-[var(--text-muted)] text-sm leading-relaxed">
+                Exploring the design logic behind DeshBari. How to implement clean multi-user logs, track BDT exchange conversions for inward remittance, and map transaction histories from bKash and Nagad.
+              </p>
+            </div>
+          </div>
+          <div class="px-8 pb-8 pt-0">
+            <span class="text-[var(--text-muted)] opacity-70 text-xs font-semibold"><i class="far fa-calendar-alt mr-2"></i>August 2026</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-<!-- Contact -->
-<section id="contact" class="py-24 bg-zinc-900">
-  <div class="max-w-4xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-8">Let's Work Together</h2>
-    <p class="text-xl text-zinc-400 mb-12">Have a project in mind? I'd love to hear from you.</p>
-    
-    <form id="contact-form" class="max-w-lg mx-auto space-y-6">
-      <input type="text" name="name" placeholder="Your Name" required 
-             class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500">
-
-      <input type="email" name="email" placeholder="Your Email" required 
-             class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500">
-
-      <input type="text" name="subject" placeholder="Subject" required 
-             class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500">
-
-      <textarea name="message" placeholder="Your Message" rows="6" required 
-                class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500"></textarea>
-
-      <button type="submit" id="submit-btn"
-              class="w-full bg-indigo-600 hover:bg-indigo-500 transition py-4 rounded-2xl font-semibold text-lg">
-        Send Message
-      </button>
-    </form>
-  </div>
-</section>
+  <!-- Contact Form -->
+  <section id="contact" class="py-24 border-t border-[var(--border)] bg-[var(--bg)]/40 relative z-10">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Let's Work Together</h2>
+        <p class="text-[var(--text-muted)]">Have a project in mind or want to collaborate? Send a message and let's get started.</p>
+        <div class="w-12 h-1 bg-indigo-600 mx-auto rounded-full mt-4"></div>
+      </div>
+      
+      <form id="contact-form" class="max-w-xl mx-auto space-y-5 glass-card p-8 rounded-3xl">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" name="name" placeholder="Your Name" required class="col-span-2 md:col-span-1 bg-[var(--bg)] border border-[var(--border)] rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[var(--text)] transition text-sm">
+          <input type="email" name="email" placeholder="Your Email" required class="col-span-2 md:col-span-1 bg-[var(--bg)] border border-[var(--border)] rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[var(--text)] transition text-sm">
+        </div>
+        <input type="text" name="subject" placeholder="Subject" required class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[var(--text)] transition text-sm">
+        <textarea name="message" placeholder="Your Message" rows="5" required class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[var(--text)] transition text-sm"></textarea>
+        <button type="submit" id="submit-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white transition py-4 rounded-xl font-bold tracking-wide shadow-lg shadow-indigo-600/10">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer class="bg-black py-12 border-t border-zinc-800">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <p class="text-zinc-500">© 2026 Rahat Ahmed Shafi. Built with ❤️ and vanilla web tech.</p>
+  <footer class="bg-[var(--card)] py-12 border-t border-[var(--border)] relative z-10">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <p class="text-[var(--text-muted)] text-sm">© 2026 Rahat Ahmed Shafi. All rights reserved.</p>
+      <div class="flex gap-6 text-[var(--text-muted)] text-sm font-medium">
+        <a href="https://github.com/RahatAhmedShafi" target="_blank" class="hover:text-indigo-400 transition">GitHub</a>
+        <a href="https://www.linkedin.com/in/rahat-ahmed-shafi/" target="_blank" class="hover:text-indigo-400 transition">LinkedIn</a>
+        <a href="https://dribbble.com/rahatahmed" target="_blank" class="hover:text-indigo-400 transition">Dribbble</a>
+        <a href="mailto:rahatahmedshafi@gmail.com" class="hover:text-indigo-400 transition">Email</a>
+      </div>
     </div>
   </footer>
+  <!-- Project Detail Modal -->
+  <div id="project-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-4xl bg-[var(--card)] border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl animate-fade-in my-8">
+      <!-- Banner Image -->
+      <div class="relative h-60 md:h-80 w-full overflow-hidden">
+        <img id="modal-img" src="" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--card)] via-[var(--card)]/40 to-transparent"></div>
+        <button onclick="closeProjectModal()" class="absolute top-6 right-6 p-2.5 bg-black/80 hover:bg-black border border-zinc-800 text-white rounded-xl transition text-lg flex items-center justify-center w-11 h-11" aria-label="Close Modal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      <!-- Content Details -->
+      <div class="p-6 md:p-10 space-y-6">
+        <div>
+          <h3 id="modal-title" class="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--text)] mb-2"></h3>
+          <p id="modal-subtitle" class="text-indigo-600 dark:text-indigo-400 text-base md:text-lg font-semibold"></p>
+        </div>
 
-<script>
+        <!-- Links -->
+        <div class="flex flex-wrap gap-3 pb-2">
+          <a id="modal-live-btn" href="#" target="_blank" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl flex items-center gap-2 transition shadow-md shadow-indigo-600/10">
+            <i class="fas fa-external-link-alt"></i> Visit Live Site
+          </a>
+          <a id="modal-github-btn" href="#" target="_blank" class="px-5 py-3 border border-[var(--border)] bg-[var(--bg)] hover:bg-[var(--card-hover)] text-[var(--text)] text-sm font-bold rounded-xl flex items-center gap-2 transition">
+            <i class="fab fa-github text-base"></i> GitHub Repository
+          </a>
+          <button onclick="closeProjectModal()" class="px-5 py-3 border border-[var(--border)] bg-[var(--bg)] hover:bg-[var(--card-hover)] text-[var(--text)] text-sm font-bold rounded-xl flex items-center gap-2 transition">
+            <i class="fas fa-arrow-left"></i> Back to Projects
+          </button>
+        </div>
+
+        <!-- Spec Grid -->
+        <div class="grid md:grid-cols-12 gap-8 pt-6 border-t border-[var(--border)]">
+          <div class="md:col-span-8 space-y-6">
+            <div>
+              <h4 class="text-lg font-bold text-[var(--text)] mb-2 flex items-center gap-2"><i class="fas fa-exclamation-triangle text-amber-500 text-base"></i> The Challenge</h4>
+              <p id="modal-challenge" class="text-[var(--text-muted)] text-sm md:text-base leading-relaxed"></p>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-[var(--text)] mb-2 flex items-center gap-2"><i class="fas fa-lightbulb text-emerald-500 text-base"></i> The Solution</h4>
+              <p id="modal-solution" class="text-[var(--text-muted)] text-sm md:text-base leading-relaxed"></p>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-[var(--text)] mb-3 flex items-center gap-2"><i class="fas fa-star text-indigo-500 dark:text-indigo-400 text-base"></i> Key Features</h4>
+              <ul id="modal-features" class="space-y-2.5 text-sm"></ul>
+            </div>
+          </div>
+
+          <div class="md:col-span-4 space-y-6">
+            <div>
+              <h4 class="text-base font-bold text-[var(--text)] mb-3 uppercase tracking-wider text-zinc-400">Tech Stack</h4>
+              <div id="modal-tech" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
     // Projects Data
     const projects = [
-      { id: 1, title: "E-commerce Platform", category: "web", desc: "Modern online store built with Next.js and Stripe integration.", img: "https://via.placeholder.com/800x500/4f46e5/ffffff?text=Project+1" },
-      { id: 2, title: "Task Management App", category: "web", desc: "Real-time collaborative todo application.", img: "https://via.placeholder.com/800x500/22c55e/ffffff?text=Task+App" },
-      { id: 3, title: "Fitness Mobile App", category: "mobile", desc: "React Native fitness tracking app.", img: "https://via.placeholder.com/800x500/f97316/ffffff?text=Fitness" },
-      { id: 4, title: "Portfolio Website", category: "web", desc: "Clean and responsive personal portfolio.", img: "https://via.placeholder.com/800x500/6366f1/ffffff?text=Portfolio" }
+      {
+        id: 1,
+        title: "Vibora — Localized Social Portal",
+        category: "web",
+        subcat: "security",
+        desc: "A privacy-first localized community portal & social network for Bangladesh. Connects local users, provides utilities like tuition matching and blood donor finding, and enforces robust server-side security shields.",
+        img: "vibora_preview.png",
+        liveUrl: "https://vibora.vercel.app/",
+        githubUrl: "https://github.com/RahatAhmedShafi",
+        tech: ["React.js", "Node.js", "Express.js", "MongoDB", "WebSockets", "Tailwind CSS"],
+        details: {
+          subtitle: "Privacy-focused community platform bridging social connections and local utilities.",
+          challenge: "Traditional social networks rely on invasive GPS tracking and telemetry scripts, risking citizen privacy, while local utility forums (tuition matching, blood donation) are scattered, unorganized, and insecure.",
+          solution: "Vibora resolves this by combining features from Facebook groups, Reddit, LinkedIn, and local boards, locking interactions to specific university boundaries (coarse-grained proximity discovery) to protect raw coordinates.",
+          features: [
+            "Coarse-Grained Proximity Discovery: Match peers & services within university/district boundaries without GPS tracking.",
+            "Real-Time Chat: Chat channels powered by JWT-authenticated WebSocket connection manager.",
+            "Secure Authentication: BCrypt password hashing and stateless JWT REST API authorization signatures.",
+            "NoSQL Database Injection Filter: Middleware stripping keys starting with dollar sign ($) to block bypasses.",
+            "Client Exploitation Shield: Response headers enforcing strict CSP script locks and X-Frame-Options to prevent UI redressing.",
+            "HTTPS Transport Hardening: Enforces Strict-Transport-Security (HSTS) and X-Content-Type-Options: nosniff."
+          ]
+        }
+      },
+      {
+        id: 2,
+        title: "DeshBari (দেশবাড়ি) — Expense Tracker",
+        category: "web",
+        subcat: "web",
+        desc: "A custom remittance and family expense tracker tailored for Bangladeshi households. Features multi-member family dashboards, remittance inflow reports, exchange rate monitoring, and MFS transaction tracking.",
+        img: "deshbari_preview.png",
+        liveUrl: "https://desh-bari.vercel.app/",
+        githubUrl: "https://github.com/RahatAhmedShafi",
+        tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "Chart.js"],
+        details: {
+          subtitle: "A finance portal for Bangladeshi families to manage shared budgets and monitor remittance inflows.",
+          challenge: "Managing household budgets across multiple family members is hard, especially when tracking incoming foreign remittances and money received via various Mobile Financial Services (MFS) like bKash or Nagad.",
+          solution: "DeshBari offers a centralized dashboard where family members can log daily expenses, monitor incoming foreign remittance with live BDT exchange rates, track MFS transactions, and visualize monthly spends with detailed analytics charts.",
+          features: [
+            "Remittance Inflow Tracker: Monitor transfer status, conversion rates, and receiver details.",
+            "Family Budgeting Dashboard: Multi-user expense logs, categorizations, and spending limits.",
+            "Bangladeshi MFS Integration: Logging and categorizing transactions from bKash, Nagad, and Rocket.",
+            "Data Visualizations: Beautiful interactive charts (powered by Chart.js) for monthly and category-wise expense breakdowns.",
+            "Smart Alerts: Custom email or dashboard notifications when family categories exceed monthly budgets."
+          ]
+        }
+      },
+      {
+        id: 3,
+        title: "LogicForge Games — Astrocade",
+        category: "games",
+        subcat: "games",
+        desc: "A portfolio of arcade and logic puzzle games designed and coded inside the Astrocade platform. Features physics-based movements, custom trigger logic, and dynamic particle effects.",
+        img: "games_preview.png",
+        liveUrl: "https://www.astrocade.com/profile/LogicForge",
+        githubUrl: "https://github.com/RahatAhmedShafi",
+        tech: ["Game Design", "Astrocade SDK", "Physics Trigger Logic", "JavaScript"],
+        details: {
+          subtitle: "Interactive retro-style puzzles and arcade physics sandboxes.",
+          challenge: "Creating polished game mechanics, including collision responses, scoring systems, and multi-level progressions, within sandbox engine constraints.",
+          solution: "Utilized Astrocade SDK tools to script collision boundaries, logic arrays, gravity parameters, and trigger zones under the creator tag LogicForge.",
+          features: [
+            "Arcade Logic: Custom player controllers, health bars, dynamic score multipliers, and level states.",
+            "Physics & Collisions: Engineered realistic acceleration, drag, bounce ratios, and bounding boxes.",
+            "Particle Effects: Added responsive visual impacts, explosion bursts, and trailing player animations.",
+            "Global Leaderboards: Connected high-score sessions to global gamer profile leaderboards."
+          ]
+        }
+      },
+      {
+        id: 4,
+        title: "Travel Explore Horizons — Landing Page UI",
+        category: "design",
+        subcat: "design",
+        desc: "A premium travel agency landing page concept featuring a glassmorphic login interface, high-contrast inputs, and a custom atmospheric sunset theme layout. Optimized for conversion rate optimization.",
+        img: "dribbble_preview.png",
+        liveUrl: "https://dribbble.com/rahatahmed",
+        githubUrl: "https://dribbble.com/rahatahmed",
+        tech: ["Figma", "UI/UX Design", "Glassmorphism", "Layout Design"],
+        details: {
+          subtitle: "Clean travel conversion landing page UI and branding mockup.",
+          challenge: "Balancing highly visual background graphics with readable, accessible input text forms and modern layout contrast.",
+          solution: "Created a glassmorphic form overlay with strict contrast ratios, modern typography flow, and a clean search hierarchy.",
+          features: [
+            "Glassmorphic Form Card: Backdrop-blur card containing registration input fields.",
+            "High-Contrast Typography: White headline fonts customized for high-contrast on sunset background.",
+            "Conversion Funnel: Prominent registration and Google social authentication links.",
+            "Modern Aesthetic: Clean margins, spacing, and brand hierarchy."
+          ]
+        }
+      }
     ];
 
+    // Render Projects grid
     function renderProjects(filter = 'all') {
       const container = document.getElementById('projects-grid');
       container.innerHTML = '';
-
-      const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+      
+      const filtered = filter === 'all' 
+        ? projects 
+        : projects.filter(p => p.category === filter || p.subcat === filter);
 
       filtered.forEach(project => {
         const card = document.createElement('div');
-        card.className = "project-card bg-zinc-800 rounded-3xl overflow-hidden";
+        card.className = "project-card bg-[var(--card)] border border-[var(--border)] rounded-3xl overflow-hidden cursor-pointer flex flex-col justify-between animate-fade-in";
         card.innerHTML = `
-          <img src="${project.img}" class="w-full h-56 object-cover">
-          <div class="p-8">
-            <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
-            <p class="text-zinc-400 mb-6">${project.desc}</p>
-            <span class="text-xs bg-zinc-700 px-3 py-1 rounded-full">${project.category}</span>
+          <div>
+            <div class="relative overflow-hidden group h-56 md:h-64 border-b border-[var(--border)]">
+              <img src="${project.img}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+              <div class="absolute inset-0 bg-indigo-955/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-20">
+                <a href="${project.liveUrl}" target="_blank" class="p-3 bg-white text-indigo-600 rounded-xl hover:scale-110 transition shadow-lg" onclick="event.stopPropagation()"><i class="fas fa-external-link-alt"></i></a>
+                <a href="${project.githubUrl}" target="_blank" class="p-3 bg-white text-indigo-600 rounded-xl hover:scale-110 transition shadow-lg" onclick="event.stopPropagation()"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+            <div class="p-6 md:p-8">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">${project.category}</span>
+              </div>
+              <h3 class="text-2xl font-bold text-[var(--text)] mb-3">${project.title}</h3>
+              <p class="text-[var(--text-muted)] text-sm leading-relaxed mb-6 line-clamp-3">${project.desc}</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                ${project.tech.map(t => `<span class="text-xs bg-[var(--bg)] border border-[var(--border)] text-indigo-600 dark:text-indigo-300 px-3 py-1 rounded-full font-medium">${t}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0 flex justify-between items-center mt-auto">
+            <button class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-bold text-sm flex items-center gap-2 transition-colors" onclick="openProjectModal(${project.id})">
+              Learn More <i class="fas fa-arrow-right text-xs"></i>
+            </button>
           </div>
         `;
+        
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('a') && !e.target.closest('button')) {
+            openProjectModal(project.id);
+          }
+        });
         container.appendChild(card);
       });
     }
 
-    // Typing Effect
+    // Modal Operations
+    function openProjectModal(id, updateHash = true) {
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+
+      const modal = document.getElementById('project-modal');
+      const title = document.getElementById('modal-title');
+      const subtitle = document.getElementById('modal-subtitle');
+      const img = document.getElementById('modal-img');
+      const liveBtn = document.getElementById('modal-live-btn');
+      const githubBtn = document.getElementById('modal-github-btn');
+      const techList = document.getElementById('modal-tech');
+      const challengeText = document.getElementById('modal-challenge');
+      const solutionText = document.getElementById('modal-solution');
+      const featuresList = document.getElementById('modal-features');
+
+      title.innerText = project.title;
+      subtitle.innerText = project.details.subtitle;
+      img.src = project.img;
+      liveBtn.href = project.liveUrl;
+      githubBtn.href = project.githubUrl;
+
+      techList.innerHTML = project.tech.map(t => `<span class="bg-[var(--bg)] text-indigo-600 dark:text-indigo-300 px-3 py-1.5 rounded-xl border border-[var(--border)] text-xs font-semibold uppercase tracking-wider">${t}</span>`).join('');
+      challengeText.innerText = project.details.challenge;
+      solutionText.innerText = project.details.solution;
+      featuresList.innerHTML = project.details.features.map(f => `<li class="flex items-start gap-3"><i class="fas fa-circle-check text-emerald-500 mt-1 text-sm"></i><span class="text-[var(--text-muted)] text-sm leading-relaxed">${f}</span></li>`).join('');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      if (updateHash) {
+        window.location.hash = "#/project/" + id;
+      }
+    }
+
+    // Close modal
+    function closeProjectModal(updateHash = true) {
+      const modal = document.getElementById('project-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+
+      if (updateHash) {
+        if (window.location.hash.startsWith('#/project/')) {
+          window.location.hash = "#projects";
+        }
+      }
+    }
+
+    // Close modal on click outside
+    document.getElementById('project-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeProjectModal();
+    });
+
+    // Theme Toggle
+    function initTheme() {
+      const toggle = document.getElementById('theme-toggle');
+      const icon = toggle.querySelector('i');
+      const html = document.documentElement;
+
+      const saved = localStorage.getItem('theme') || 'dark';
+      html.setAttribute('data-theme', saved);
+      updateThemeIcon(saved, icon);
+
+      toggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme, icon);
+      });
+    }
+
+    function updateThemeIcon(theme, icon) {
+      if (theme === 'light') {
+        icon.classList.replace('fa-moon', 'fa-sun');
+      } else {
+        icon.classList.replace('fa-sun', 'fa-moon');
+      }
+    }
+
+    // Filter Buttons
+    function initFilters() {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-indigo-600', 'text-white');
+            b.classList.add('text-zinc-400');
+          });
+          btn.classList.add('active', 'bg-indigo-600', 'text-white');
+          btn.classList.remove('text-zinc-400');
+          renderProjects(btn.dataset.filter);
+        });
+      });
+    }
+
+    // Dynamic Typing Effect
     function startTyping() {
-      const texts = ["Full Stack Developer", "UI/UX Enthusiast", "Problem Solver"];
+      const texts = ["Full Stack Developer", "Cybersecurity Enthusiast", "Web Developer", "Problem Solver"];
       let count = 0, index = 0, direction = 1;
       const element = document.getElementById('typing-text');
 
@@ -296,56 +781,21 @@
             count = (count + 1) % texts.length; 
           }
         }
-        setTimeout(type, direction === 1 ? 80 : 40);
+        setTimeout(type, direction === 1 ? 85 : 45);
       }
       type();
     }
 
-    // Theme Toggle
-    function initTheme() {
-      const toggle = document.getElementById('theme-toggle');
-      const icon = toggle.querySelector('i');
-
-      if (localStorage.getItem('theme') === 'light') {
-        document.documentElement.classList.add('light');
-        icon.classList.replace('fa-moon', 'fa-sun');
-      }
-
-      toggle.addEventListener('click', () => {
-        document.documentElement.classList.toggle('light');
-        if (document.documentElement.classList.contains('light')) {
-          icon.classList.replace('fa-moon', 'fa-sun');
-          localStorage.setItem('theme', 'light');
-        } else {
-          icon.classList.replace('fa-sun', 'fa-moon');
-          localStorage.setItem('theme', 'dark');
-        }
-      });
-    }
-
-    // Filters
-    function initFilters() {
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'bg-indigo-600', 'text-white'));
-          btn.classList.add('active', 'bg-indigo-600', 'text-white');
-          renderProjects(btn.dataset.filter);
-        });
-      });
-    }
-
-    // EmailJS Configuration
+    // EmailJS Form Submission
     function initEmailJS() {
-      // Replace these with your actual EmailJS credentials
-      emailjs.init("ds9Sevs3tbH9IQULR");   // ← Put your Public Key here
+      emailjs.init("ds9Sevs3tbH9IQULR");
 
       const form = document.getElementById('contact-form');
-      const submitBtn = document.getElementById('submit-btn') || form.querySelector('button[type="submit"]');
+      const submitBtn = document.getElementById('submit-btn');
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        submitBtn.innerHTML = 'Sending...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner animate-spin mr-2"></i> Sending...';
         submitBtn.disabled = true;
 
         emailjs.sendForm('service_qgyx35h', 'template_vmbfrk8', this)
@@ -355,7 +805,7 @@
           })
           .catch((error) => {
             console.error('EmailJS Error:', error);
-            alert("❌ Failed to send message. Please try again later.");
+            alert("❌ Failed to send message. Please try again.");
           })
           .finally(() => {
             submitBtn.innerHTML = 'Send Message';
@@ -364,18 +814,32 @@
       });
     }
 
-    // Initialize Everything
+    // Routing handlers
+    function handleHashRouting() {
+      const hash = window.location.hash;
+      const match = hash.match(/^#\/project\/(\d+)$/);
+      if (match) {
+        const id = parseInt(match[1]);
+        openProjectModal(id, false);
+      } else {
+        closeProjectModal(false);
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashRouting);
+
+    // Setup Event Listeners
     window.onload = () => {
       renderProjects();
       startTyping();
       initTheme();
       initFilters();
-      initEmailJS();        // ← New EmailJS initialization
+      initEmailJS();
+      handleHashRouting(); // Check URL on initial load
 
       // Mobile Menu
       const mobileBtn = document.getElementById('mobile-menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
-      
       mobileBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
         mobileBtn.innerHTML = mobileMenu.classList.contains('hidden') 
@@ -383,16 +847,19 @@
           : '<i class="fas fa-times"></i>';
       });
 
-      // Smooth Scrolling
+      // Smooth Scroll
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           e.preventDefault();
           const target = document.querySelector(this.getAttribute('href'));
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+            mobileMenu.classList.add('hidden'); // Close mobile menu if open
+            mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          }
         });
       });
     };
   </script>
-  
 </body>
 </html>
