@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background square with rounded corners -->
+  <rect width="32" height="32" rx="8" fill="#6366f1"/>
+  <!-- Fibonacci spiral path in white -->
+  <path d="M16 16
+    a5.333 5.333 0 0 1-5.333-5.333
+    a5.333 5.333 0 0 1 5.333-5.333
+    a10.667 10.667 0 0 1 10.667 10.667
+    a10.667 10.667 0 0 1-10.667 10.667
+    a16 16 0 0 1-16-16"
+    fill="none"
+    stroke="white"
+    stroke-width="2.8"
+    stroke-linecap="round"
+  />
+</svg>
